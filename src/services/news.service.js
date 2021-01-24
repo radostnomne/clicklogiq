@@ -111,9 +111,13 @@ export const getNews = async ({ query, from, limit }) => {
 
   const results = [];
 
-  for (const article of articles) {
-    const processedArticle = await saveArticleIfNotExists(article);
-    results.push(processedArticle);
+  // process articles by chunks
+  while (articles.length) {
+    const chunks = await Promise.all(
+      articles.splice(0, 10).map(saveArticleIfNotExists)
+    );
+
+    results.push(...chunks);
   }
 
   return {
