@@ -1,6 +1,9 @@
 import Express from 'express';
 
 import { newsRoutes } from './routes/news.routes.js';
+import * as helpers from './helpers.js';
+
+helpers.createTempDirectoryIfNotExists();
 
 export const app = Express();
 
